@@ -16,34 +16,6 @@ await mongoose.connect(stringcon,{
  })
 }
 
-const quizscheme = new Schema({
-     soal: String,
-     option1: String,
-     option2: String,
-     option3: String, 
-     option4: String,
-     jawaban :String,
-     category:String
-    },{collection:'quiz'});
-
-const scorescheme = new Schema({
-        name : String,
-        score: String,
-        timeTaken: String,
-        time: String,
-        category: String
-       },{collection:'score'});
-
-const categorycheme = new Schema({
-        name : String
-},{collection:'category'});
-
-var quiz=mongoose.model('quiz',quizscheme)
-
-var score=mongoose.model('score',scorescheme)
-
-var category=mongoose.model('category',categorycheme)
-
 // async function getQuiz(){
 //     var arr=[]
 //      await quiz.find().then((res)=>{
@@ -190,5 +162,5 @@ var category=mongoose.model('category',categorycheme)
 
 
 module.exports={
-
+connect:connect,
 }
