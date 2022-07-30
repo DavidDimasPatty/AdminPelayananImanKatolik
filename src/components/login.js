@@ -11,7 +11,7 @@ const Login = () => {
   /* TOKEN */
 
 
-  const history = useNavigate();
+  const nav = useNavigate();
 
   /* Check table user di db */
   const login = async (e) => {
@@ -27,9 +27,9 @@ const Login = () => {
           password:password
         }
       }).then((respon) => {
-
+        console.log(respon);
         if(respon.data.length !== 0) {
-          history.push("/home");
+          nav("/home");
         }
         else{
         
@@ -61,7 +61,6 @@ const Login = () => {
 
       <button className="loginButton" onClick={login}>Login</button>
       
-      <a href="/signup" className="linkButton"><button className="signupButton">Sign Up</button></a>
     
     </div>
 

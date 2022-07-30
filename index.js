@@ -13,6 +13,12 @@ dbm.connect()
 
 require('dotenv').config()
 
+app.get('/user',function (req,res){
+    console.log(req.query);
+    dbm.getIdUser(req.query.username,req.query.password).then((result)=>{
+        res.send(result)
+    })
+});
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

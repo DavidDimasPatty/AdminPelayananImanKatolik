@@ -2,7 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 
-var stringcon=`mongodb+srv://${process.env.USERNAME_DB}:${process.env.PW_DB}@cluster0.hw29l.mongodb.net/?retryWrites=true&w=majority`
+var stringcon=`mongodb+srv://${process.env.USERNAME_DB}:${process.env.PW_DB}@cluster0.hw29l.mongodb.net/GerejaDB`
 const conn = mongoose.createConnection(stringcon);
 const connect = async (e)=>{ 
 await mongoose.connect(stringcon,{
@@ -15,6 +15,13 @@ await mongoose.connect(stringcon,{
      console.log("Database Failed to Connect "+err)
  })
 }
+
+const adminscheme = new Schema({
+    password: String,
+    user: String
+  
+   },{collection:'admin'});
+var admin=mongoose.model('admin',adminscheme)
 
 // async function getQuiz(){
 //     var arr=[]
@@ -37,16 +44,22 @@ await mongoose.connect(stringcon,{
 // }
 
 
-// async function getIdUser(){
-//     var arr=[]
-//      await score.find().sort({ _id: -1 }).limit(1).then((res)=>{
-//         arr=res;
-//         console.log(res)
-//     }).catch((e)=>{
-//         console.log(e)
-//     })
-//     return arr
-// }
+async function getIdUser(id,pw){
+    var arr=[]
+    console.log(id);
+     await admin.find({
+        $and: [
+            {user: id},
+             {password: pw} 
+        ]
+    }).then((res)=>{
+        arr=res;
+        console.log(res)
+    }).catch((e)=>{
+        console.log(e)
+    })
+    return arr
+}
 
 // async function getScore(){
 //     var arr=[]
@@ -163,4 +176,5 @@ await mongoose.connect(stringcon,{
 
 module.exports={
 connect:connect,
+getIdUser:getIdUser
 }
