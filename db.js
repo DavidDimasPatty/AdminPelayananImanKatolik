@@ -23,15 +23,45 @@ const adminscheme = new Schema({
    },{collection:'admin'});
 var admin=mongoose.model('admin',adminscheme)
 
-// async function getQuiz(){
-//     var arr=[]
-//      await quiz.find().then((res)=>{
-//         arr=res;
-//     }).catch((e)=>{
-//         console.log(e)
-//     })
-//     return arr
-// }
+const gerejascheme = new Schema({
+    nama:String,
+    address:String,
+    kapasitas:String,
+    paroki:String,
+    lingkungan:String
+   },{collection:'Gereja'});
+var gereja=mongoose.model('Gereja',gerejascheme)
+
+const userscheme = new Schema({
+    name:String,
+    email:String,
+    password:String,
+    picture:String,
+    },{collection:'user'});
+var user=mongoose.model('user',userscheme)
+
+
+
+async function getAllGereja(){
+    var arr=[]
+     await gereja.find().then((res)=>{
+        arr=res;
+    }).catch((e)=>{
+        console.log(e)
+    })
+    return arr
+}
+
+async function getAllUser(){
+    var arr=[]
+     await user.find().then((res)=>{
+        arr=res;
+    }).catch((e)=>{
+        console.log(e)
+    })
+    return arr
+}
+
 
 // async function getAllCategory(){
 //     var arr=[]
@@ -176,5 +206,7 @@ async function getIdUser(id,pw){
 
 module.exports={
 connect:connect,
-getIdUser:getIdUser
+getIdUser:getIdUser,
+getAllGereja:getAllGereja,
+getAllUser:getAllUser
 }

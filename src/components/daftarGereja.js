@@ -4,9 +4,10 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 
 const DaftarGereja = () => {
-    const [quiz,setQuiz]=useState([]);
+    const [gereja,setGereja]=useState([]);
     const nav = useNavigate();
     useEffect(()=>{
+        getAllGereja();
     },[])
     const devEnv = process.env.NODE_ENV !== "production";
     const deleteQuiz= async(id)=>{
@@ -17,12 +18,12 @@ const DaftarGereja = () => {
          }).then( window.location.href="/admin")
     }
 
-    const getAllQuiz= async()=>{
-        await axios.get(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/get`).
+    const getAllGereja= async()=>{
+        await axios.get(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/getgereja`).
         then((res)=>{
              console.log(res.data)
              if (res.data.length!=0){
-                setQuiz(res.data);
+                setGereja(res.data);
                 }
         }).catch((e)=>{
             window.location.reload();
@@ -39,32 +40,27 @@ const DaftarGereja = () => {
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Id_question</th>
-                    <th>Question</th>
-                    <th>Option1</th>
-                    <th>Option2</th>
-                    <th>Option3</th>
-                    <th>Option4</th>
-                    <th>Answer</th>
-                    <th>Category</th>
-                    <th>Actions</th>
+                    <th>Id Gereja</th>
+                    <th>Nama</th>
+                    <th>Address</th>
+                    <th>Kapasitas</th>
+                    <th>Paroki</th>
+                    <th>Lingkungan</th>
                 </tr>
             </thead>
             <tbody>
-                { quiz.map((quiz,index)=>(
-                <tr key={quiz._id}>
+                { gereja.map((Gereja,index)=>(
+                <tr key={Gereja._id}>
                 <td>{index+1}</td>
-                <td>{quiz._id}</td>
-                <td>{quiz.soal}</td>
-                <td>{quiz.option1}</td>
-                <td>{quiz.option2}</td>
-                <td>{quiz.option3}</td>
-                <td>{quiz.option4}</td>
-                <td>{quiz.jawaban}</td>
-                <td>{quiz.category}</td>
+                <td>{Gereja._id}</td>
+                <td>{Gereja.nama}</td>
+                <td>{Gereja.address}</td>
+                <td>{Gereja.kapasitas}</td>
+                <td>{Gereja.paroki}</td>
+                <td>{Gereja.lingkungan}</td>
                 <td>
-                    <Link to={`/edit/${quiz._id}`} className='button is-small is-info'>Edit</Link>
-                    <button onClick={()=>deleteQuiz(quiz._id)} className='button is-small is-danger'>Delete</button>
+                    <Link to={`/edit/${Gereja._id}`} className='button is-small is-info'>Edit</Link>
+                    <button onClick={()=>deleteQuiz(Gereja._id)} className='button is-small is-danger'>Delete</button>
                 </td>
 
                 </tr>

@@ -20,6 +20,18 @@ app.get('/user',function (req,res){
     })
 });
 
+app.get('/getgereja',function (req,res){
+    dbm.getAllGereja().then((result)=>{
+        res.send(result)
+    })
+});
+
+app.get('/getuser',function (req,res){
+    dbm.getAllUser().then((result)=>{
+        res.send(result)
+    })
+});
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
