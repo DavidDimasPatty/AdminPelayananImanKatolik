@@ -35,7 +35,7 @@ const DaftarGereja = () => {
     return (
       <div>    
         <Link to="/" className='button is-primary mt-2 mr-3 mb-3'>Back To Home</Link>
-        <Link to="add" className='button is-primary mt-2'>Add Quiz</Link>
+        <Link to="/pageaddgereja" className='button is-primary mt-2'>Add Quiz</Link>
         <table className='table is-stripped is-fullwidth'>
             <thead>
                 <tr>
@@ -59,7 +59,7 @@ const DaftarGereja = () => {
                 <td>{Gereja.paroki}</td>
                 <td>{Gereja.lingkungan}</td>
                 <td>
-                    <Link to={`/edit/${Gereja._id}`} className='button is-small is-info'>Edit</Link>
+                    <Link to={`/editgereja/${Gereja._id}`} className='button is-small is-info'>Edit</Link>
                     <button onClick={()=>deleteQuiz(Gereja._id)} className='button is-small is-danger'>Delete</button>
                 </td>
 

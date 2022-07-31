@@ -55,7 +55,7 @@ const DaftarUser = () => {
                 <td>{User.name}</td>
                 <td>{User.email}</td>
                 <td>{User.password}</td>
-                <td>{User.picture}</td>
+                <td> <img src={User.picture} width="50" height = "50"/></td>
                 <td>
                     <Link to={`/edit/${User._id}`} className='button is-small is-info'>Edit</Link>
                     <button onClick={()=>deleteQuiz(User._id)} className='button is-small is-danger'>Delete</button>

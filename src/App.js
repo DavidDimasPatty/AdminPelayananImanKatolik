@@ -4,6 +4,8 @@ import DaftarGereja from "./components/daftarGereja";
 import DaftarUser from "./components/daftarUser";
 import Login from './components/login'
 import Home from './components/home'
+import EditGereja from "./components/editGereja";
+import AddGereja from "./components/addGereja";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
            <Route exact path="/home" element={<Home/>}/>
            <Route exact path="/daftargereja" element={<DaftarGereja/>}/>
            <Route exact path="/daftaruser" element={<DaftarUser/>}/>
+           <Route exact path="/editgereja/:id" element={<EditGereja/>}/>
+           <Route exact path="/pageaddgereja" element={<AddGereja/>}/>
              
              
            </Routes>

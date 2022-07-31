@@ -32,6 +32,21 @@ app.get('/getuser',function (req,res){
     })
 });
 
+app.get('/getidgereja',function (req,res){
+    dbm.getIdGereja(req.query.id).then((result)=>{
+        res.send(result)
+    })
+});
+
+app.patch('/updategereja',function(req,res){
+   dbm.updateGereja(req.body.data)
+  })
+
+  app.post('/addgereja',function(req,res){
+    dbm.addGereja(req)
+  })
+
+  
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
