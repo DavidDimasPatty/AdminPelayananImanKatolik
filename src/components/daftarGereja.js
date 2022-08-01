@@ -46,6 +46,7 @@ const DaftarGereja = () => {
                     <th>Kapasitas</th>
                     <th>Paroki</th>
                     <th>Lingkungan</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

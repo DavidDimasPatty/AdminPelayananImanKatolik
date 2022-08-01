@@ -37,6 +37,7 @@ const userscheme = new Schema({
     email:String,
     password:String,
     picture:String,
+    banned:String,
     },{collection:'user'});
 var user=mongoose.model('user',userscheme)
 
@@ -114,6 +115,33 @@ function addGereja(item){
 function deletegereja(item){
     gereja.findByIdAndRemove(item).exec();
    }
+
+   function deleteUser(item){
+    user.findByIdAndRemove(item).exec();
+   }
+
+   async function bannedUser(item){
+    console.log(item.id);
+    if(item.banned==0){
+    await user.updateOne(
+        { _id: item.id },
+        { $set: { banned: "1"} },
+        { upsert: true } // Make this update into an upsert
+      ).catch((e)=>{
+        console.log(e);
+      });
+    }
+    else{
+        await user.updateOne(
+            { _id: item.id },
+            { $set: { banned: "0"} },
+            { upsert: true } // Make this update into an upsert
+          ).catch((e)=>{
+            console.log(e);
+          });
+    }
+}
+
 module.exports={
 connect:connect,
 getIdUser:getIdUser,
@@ -122,6 +150,7 @@ getAllUser:getAllUser,
 getIdGereja:getIdGereja,
 updateGereja:updateGereja,
 addGereja:addGereja,
-deletegereja:deletegereja
-
+deletegereja:deletegereja,
+deleteUser:deleteUser,
+bannedUser:bannedUser
 }

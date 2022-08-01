@@ -42,6 +42,10 @@ app.patch('/updategereja',function(req,res){
    dbm.updateGereja(req.body.data)
   })
 
+  app.patch('/banneduser',function(req,res){
+    dbm.bannedUser(req.body.data)
+   })
+
   app.post('/addgereja',function(req,res){
     dbm.addGereja(req)
   })
@@ -49,6 +53,9 @@ app.patch('/updategereja',function(req,res){
   app.delete('/deletegereja',function(req,res){
    dbm.deletegereja(req.body.id)
  })
+ app.delete('/deleteuser',function(req,res){
+    dbm.deleteUser(req.body.id)
+  })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
