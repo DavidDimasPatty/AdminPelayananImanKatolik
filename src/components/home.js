@@ -6,7 +6,7 @@ import './home.css'
 function Home() {
   const navigate = useNavigate();
   return (
-    <body className="container " >
+    <body className="container" >
 
       <div classNameName="columns  is-centered is-vcentered is-mobile">
         <div className="column is-narrow has-text-centered">
