@@ -15,12 +15,17 @@ const Login = () => {
 
   /* Check table user di db */
   const login = async (e) => {
-    
+
+    const devEnv = process.env.NODE_ENV !== "production";
+    const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    console.log(process.env)
+    console.log(process.env.REACT_APP_PROD_URL)
+        
     if(username && password) {
       
       const devEnv = process.env.NODE_ENV !== "production";
       const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
-  
+
       await axios.get(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/user`, {
         params: {
           username:username,
