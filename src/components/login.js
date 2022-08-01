@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bulma/css/bulma.min.css";
 
@@ -17,34 +17,34 @@ const Login = () => {
   const login = async (e) => {
 
     const devEnv = process.env.NODE_ENV !== "production";
-    const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
     console.log(process.env)
     console.log(process.env.REACT_APP_PROD_URL)
-        
-    if(username && password) {
-      
+
+    if (username && password) {
+
       const devEnv = process.env.NODE_ENV !== "production";
-      const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+      const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 
       await axios.get(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/user`, {
         params: {
-          username:username,
-          password:password
+          username: username,
+          password: password
         }
       }).then((respon) => {
         console.log(respon);
-        if(respon.data.length !== 0) {
+        if (respon.data.length !== 0) {
           nav("/home");
         }
-        else{
-        
+        else {
+
           window.alert("Invalid username or password");
         }
 
       }).catch((err) => console.log(err));
 
     }
-    else{
+    else {
       window.alert("Username or password can't be empty");
     }
 
@@ -52,24 +52,24 @@ const Login = () => {
   /*  */
   return (
 
-  <center>
+    <center>
 
-    <div className="loginContainer">
-      
-      <div className="loginTitle">Log In</div>
-      
-      <div className="loginLabel">Username</div>
-      <div className="loginInput"><input type="text" onChange={e => setUserName(e.target.value)} spellCheck="false" required/></div>
+      <div className="loginContainer">
+        <br />
+        <h2 style={{ color: "Black", fontSize: "20px" }}>Log In</h2>
+        <br />
+        <div className="loginLabel">Username</div>
+        <div className="loginInput"><input type="text" onChange={e => setUserName(e.target.value)} spellCheck="false" required /></div>
 
-      <div className="loginLabel">Password</div>
-      <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required/></div>
+        <div className="loginLabel">Password</div>
+        <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required /></div>
+        <br />
+        <button className="button is-link" onClick={login} >Login</button>
 
-      <button className="loginButton" onClick={login}>Login</button>
-      
-    
-    </div>
 
-  </center>
+      </div>
+
+    </center>
 
   )
 

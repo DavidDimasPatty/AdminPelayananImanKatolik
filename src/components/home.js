@@ -16,13 +16,13 @@ function Home() {
 
       <div className="columns is-centered is-vcentered is-mobile">
         <div className="column is-narrow has-text-centered">
-          <button onClick={()=>navigate(window.location.href=`/daftargereja`)}  id='start' className="button is-link">Daftar Gereja</button>
+          <button onClick={()=>navigate.call(window.location.href=`/daftargereja`)}  id='start' className="button is-link">Daftar Gereja</button>
         </div>
       </div>
 
       <div className="columns is-centered is-vcentered is-mobile">
         <div className="column is-narrow has-text-centered">
-          <button onClick={()=>navigate(window.location.href=`/daftaruser`)} id='scoreboard' className="button is-link">Daftar User</button>
+          <button onClick={()=>navigate.call(window.location.href=`/daftaruser`)} id='scoreboard' className="button is-link">Daftar User</button>
         </div>
       </div>
 
