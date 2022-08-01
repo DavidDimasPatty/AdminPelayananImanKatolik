@@ -46,7 +46,9 @@ app.patch('/updategereja',function(req,res){
     dbm.addGereja(req)
   })
 
-  
+  app.delete('/deletegereja',function(req,res){
+   dbm.deletegereja(req.body.id)
+ })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 

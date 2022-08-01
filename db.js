@@ -111,7 +111,9 @@ function addGereja(item){
     var data= new gereja(newData);
     data.save();
 }
-
+function deletegereja(item){
+    gereja.findByIdAndRemove(item).exec();
+   }
 module.exports={
 connect:connect,
 getIdUser:getIdUser,
@@ -119,6 +121,7 @@ getAllGereja:getAllGereja,
 getAllUser:getAllUser,
 getIdGereja:getIdGereja,
 updateGereja:updateGereja,
-addGereja:addGereja
+addGereja:addGereja,
+deletegereja:deletegereja
 
 }
