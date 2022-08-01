@@ -34,7 +34,7 @@ const DaftarGereja = () => {
   
     return (
       <div>    
-        <Link to="/" className='button is-primary mt-2 mr-3 mb-3'>Back To Home</Link>
+        <Link to="/home" className='button is-primary mt-2 mr-3 mb-3'>Back To Home</Link>
         <Link to="/pageaddgereja" className='button is-primary mt-2'>Add Gereja</Link>
         <table className='table is-stripped is-fullwidth'>
             <thead>
