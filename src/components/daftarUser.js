@@ -9,8 +9,12 @@ const DaftarUser = () => {
     useEffect(() => {
         getAllUser();
     }, [])
-    const devEnv = process.env.NODE_ENV !== "production";
+  
+  
     const deleteUser = async (id) => {
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    
         await axios.delete(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/deleteuser`, {
             data: {
                 id: id
@@ -19,6 +23,9 @@ const DaftarUser = () => {
     }
 
     const bannedUser = async (id,banned) => {
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    
         await axios.patch(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/banneduser`, {
             data: {
                 id: id,
@@ -28,6 +35,8 @@ const DaftarUser = () => {
     }
 
     const getAllUser = async () => {
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
         await axios.get(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/getuser`).
             then((res) => {
                 console.log(res.data)

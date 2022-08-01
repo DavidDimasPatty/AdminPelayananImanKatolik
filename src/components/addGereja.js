@@ -12,9 +12,12 @@ const AddGereja = () => {
     useEffect(()=>{
    
     },[])
-    
+  
+
     const saveGereja= async ()=>{
         const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    
         await axios.post(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/addgereja `,{
            
             nama:nama,

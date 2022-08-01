@@ -9,7 +9,9 @@ const DaftarGereja = () => {
     useEffect(()=>{
         getAllGereja();
     },[])
+
     const devEnv = process.env.NODE_ENV !== "production";
+      const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
     const deleteGereja= async(id)=>{
         await axios.delete(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/deletegereja`,{
                data:{ 
