@@ -10,7 +10,6 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 dbm.connect()
-app.use(express.static('public'))
 require('dotenv').config()
 
 app.get('/user',function (req,res){
@@ -57,5 +56,6 @@ app.patch('/updategereja',function(req,res){
     dbm.deleteUser(req.body.id)
   })
 
+  app.use(express.static('public'))
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
