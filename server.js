@@ -1,8 +1,10 @@
 const express = require('express')
 const cors = require('cors')
+const path = require('path');
 const dbm=require('./db')
 const db = require('./db')
 const bodyParser = require("body-parser");
+const publicPath = path.join(__dirname, '..', 'public');
 const PORT = process.env.PORT || 5000
 const app = express()
 
@@ -56,6 +58,9 @@ app.patch('/updategereja',function(req,res){
     dbm.deleteUser(req.body.id)
   })
 
-  app.use(express.static('public'))
+  app.use(express.static(publicPath));
+  app.get('*', (req, res) => {
+     res.sendFile(path.join(publicPath, 'index.html'));
+  });
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
