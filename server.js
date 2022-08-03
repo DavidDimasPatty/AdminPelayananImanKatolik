@@ -13,57 +13,53 @@ app.use(bodyParser.urlencoded({ extended: true }));
 dbm.connect()
 require('dotenv').config()
 
-app.get('/user',function (req,res){
+app.get('/api/user',function (req,res){
     console.log(req.query);
     dbm.getIdUser(req.query.username,req.query.password).then((result)=>{
         res.send(result)
     })
 });
 
-app.get('/getgereja',function (req,res){
+app.get('/api/getgereja',function (req,res){
     dbm.getAllGereja().then((result)=>{
         res.send(result)
     })
 });
 
-app.get('/getuser',function (req,res){
+app.get('/api/getuser',function (req,res){
     dbm.getAllUser().then((result)=>{
         res.send(result)
     })
 });
 
-app.get('/getidgereja',function (req,res){
+app.get('/api/getidgereja',function (req,res){
     dbm.getIdGereja(req.query.id).then((result)=>{
         res.send(result)
     })
 });
 
-app.patch('/updategereja',function(req,res){
+app.patch('/api/updategereja',function(req,res){
    dbm.updateGereja(req.body.data)
   })
 
-  app.patch('/banneduser',function(req,res){
+  app.patch('/api/banneduser',function(req,res){
     dbm.bannedUser(req.body.data)
    })
 
-  app.post('/addgereja',function(req,res){
+  app.post('/api/addgereja',function(req,res){
     dbm.addGereja(req)
   })
 
-  app.delete('/deletegereja',function(req,res){
+  app.delete('/api/deletegereja',function(req,res){
    dbm.deletegereja(req.body.id)
  })
- app.delete('/deleteuser',function(req,res){
+ app.delete('/api/deleteuser',function(req,res){
     dbm.deleteUser(req.body.id)
   })
 
   if(process.env.NODE_ENV === 'production') {
-    app.use('/api/*', function(req, res) {
-        res.sendFile(path.join(__dirname, 'build', 'index.html'));
-          
-      });
     app.use(express.static(path.join(__dirname, 'build')));
-    app.get('/', function(req, res) {
+    app.get('*', function(req, res) {
       res.sendFile(path.join(__dirname, 'build', 'index.html'));
         
     });
