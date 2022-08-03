@@ -58,6 +58,10 @@ app.patch('/updategereja',function(req,res){
   })
 
   if(process.env.NODE_ENV === 'production') {
+    app.get('/api/*', function(req, res) {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+          
+      });
     app.use(express.static(path.join(__dirname, 'build')));
     app.get('/*', function(req, res) {
       res.sendFile(path.join(__dirname, 'build', 'index.html'));
