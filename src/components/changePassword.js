@@ -1,78 +1,76 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "bulma/css/bulma.min.css";
 
 const ChangePassword = () => {
 
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+    const [repassword, setRePassword] = useState();
+    const [password, setPassword] = useState();
+    const { email } = useParams();
 
-  /* TOKEN */
+    /* TOKEN */
 
 
-  const nav = useNavigate();
+    const nav = useNavigate();
 
-  /* Check table user di db */
-  const login = async (e) => {
+    /* Check table user di db */
+    const ChangePasswordUser = async (e) => {
 
-    const devEnv = process.env.NODE_ENV !== "production";
-    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
-    console.log(process.env)
-    console.log(process.env.REACT_APP_PROD_URL)
+        const devEnv = process.env.NODE_ENV !== "production";
+        const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+        console.log(process.env)
+        console.log(process.env.REACT_APP_PROD_URL)
 
-    if (username && password) {
+        if (repassword && password) {
 
-      const devEnv = process.env.NODE_ENV !== "production";
-      const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+            const devEnv = process.env.NODE_ENV !== "production";
+            const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 
-      await axios.get(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/user`, {
-        params: {
-          username: username,
-          password: password
-        }
-      }).then((respon) => {
-        console.log(respon);
-        if (respon.data.length !== 0) {
-          nav("/home");
+            await axios.patch(`${devEnv ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/updatepassword`, {
+                data: {
+                    email: email,
+                    password: password
+                }
+            }).then((respon) => {
+                console.log(respon);
+                setPassword('');
+                setRePassword('');
+                window.alert("Password Berhasil Diubah");
+
+
+            }).catch((err) => console.log(err));
+
         }
         else {
-
-          window.alert("Invalid username or password");
+            window.alert("Username or password can't be empty");
         }
 
-      }).catch((err) => console.log(err));
-
     }
-    else {
-      window.alert("Username or password can't be empty");
-    }
+    /*  */
+    return (
 
-  }
-  /*  */
-  return (
+        <center>
 
-    <center>
+            <div className="loginContainer">
+                <br />
+                <h2 style={{ color: "Black", fontSize: "20px" }}>ChangePassword</h2>
+                <br />
 
-      <div className="loginContainer">
-        <br />
-        <h2 style={{ color: "Black", fontSize: "20px" }}>ChangePassword</h2>
-        <br />
-       
-        <div className="loginLabel">Password</div>
-        <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required /></div>
+                <div className="loginLabel">Password</div>
+                <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required /></div>
 
-        <div className="loginLabel">Re-Type Password</div>
-        <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required /></div>
-        <br />
-        <button className="button is-link" onClick={login} >Login</button>
+                <div className="loginLabel">Re-Type Password</div>
+                <div className="loginInput"><input type="password" onChange={e => setRePassword(e.target.value)} required /></div>
+                <br />
+                <button className="button is-link" onClick={ChangePasswordUser} >Change Password</button>
 
 
-      </div>
+            </div>
 
-    </center>
+        </center>
 
-  )
+    )
 
 }
 

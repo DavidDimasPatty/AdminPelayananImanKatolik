@@ -42,6 +42,12 @@ app.patch('/api/updategereja',function(req,res){
    dbm.updateGereja(req.body.data)
   })
 
+  app.patch('/api/updatepassword',function(req,res){
+    dbm.updatePassword(req.body.data).then((result)=>{
+      res.send(result)
+  })
+   })
+
   app.patch('/api/banneduser',function(req,res){
     dbm.bannedUser(req.body.data)
    })

@@ -101,6 +101,15 @@ async function updateGereja(item){
       );
 }
 
+async function updatePassword(item){
+    await user.updateOne(
+        { email: item.email },
+        { $set: { password: item.password } },
+        { upsert: true } // Make this update into an upsert
+      );
+}
+
+
 function addGereja(item){
     const newData = {
         nama:item.body.nama,
@@ -152,5 +161,6 @@ updateGereja:updateGereja,
 addGereja:addGereja,
 deletegereja:deletegereja,
 deleteUser:deleteUser,
-bannedUser:bannedUser
+bannedUser:bannedUser,
+updatePassword:updatePassword
 }
