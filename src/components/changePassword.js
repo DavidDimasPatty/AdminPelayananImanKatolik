@@ -34,11 +34,12 @@ const ChangePassword = () => {
                 }
             }).then((respon) => {
                 console.log(respon);
-                setPassword('');
-                setRePassword('');
+              
                 window.alert("Password Berhasil Diubah");
-
-
+                setTimeout(window.location.reload(),
+                    2000
+                );
+                
             }).catch((err) => console.log(err));
 
         }
@@ -58,10 +59,10 @@ const ChangePassword = () => {
                 <br />
 
                 <div className="loginLabel">Password</div>
-                <div className="loginInput"><input type="password" onChange={e => setPassword(e.target.value)} required /></div>
+                <div className="loginInput"><input type="password" id="pass" onChange={e => setPassword(e.target.value)} required /></div>
 
                 <div className="loginLabel">Re-Type Password</div>
-                <div className="loginInput"><input type="password" onChange={e => setRePassword(e.target.value)} required /></div>
+                <div className="loginInput"><input type="password" id="repass" onChange={e => setRePassword(e.target.value)} required /></div>
                 <br />
                 <button className="button is-link" onClick={ChangePasswordUser} >Change Password</button>
 
