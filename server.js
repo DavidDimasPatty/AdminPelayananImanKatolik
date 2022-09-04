@@ -38,6 +38,12 @@ app.get('/api/getidgereja',function (req,res){
     })
 });
 
+app.get('/api/getuseremail',function (req,res){
+  dbm.getUserEmail(req.query.email).then((result)=>{
+      res.send(result)
+  })
+});
+
 app.patch('/api/updategereja',function(req,res){
    dbm.updateGereja(req.body.data)
   })

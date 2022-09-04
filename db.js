@@ -81,6 +81,21 @@ async function getIdUser(id,pw){
     return arr
 }
 
+async function getUserEmail(email){
+    var arr=[]
+     await user.find({
+        $and: [
+            {email: email}, 
+        ]
+    }).then((res)=>{
+        arr=res;
+        console.log(res)
+    }).catch((e)=>{
+        console.log(e)
+    })
+    return arr
+}
+
 async function getIdGereja(id){
     var arr=[]
     console.log(id);
@@ -162,5 +177,6 @@ addGereja:addGereja,
 deletegereja:deletegereja,
 deleteUser:deleteUser,
 bannedUser:bannedUser,
-updatePassword:updatePassword
+updatePassword:updatePassword,
+getUserEmail:getUserEmail
 }

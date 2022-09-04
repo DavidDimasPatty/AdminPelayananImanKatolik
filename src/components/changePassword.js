@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "bulma/css/bulma.min.css";
@@ -8,9 +8,27 @@ const ChangePassword = () => {
     const [repassword, setRePassword] = useState();
     const [password, setPassword] = useState();
     const { email } = useParams();
+    useEffect(()=>{
+        getUserEmail();
+    },[])
 
     /* TOKEN */
-
+    const getUserEmail= async ()=>{
+       
+        const devEnv = process.env.NODE_ENV !== "production";
+        const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    
+        await axios.get(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/getuseremail`,{
+            params:{
+                email:email
+            }
+        }).then((response)=>{
+         if(response.data.length==0){
+            window.location.replace('/error');
+         }
+        });
+        
+    }
 
     const nav = useNavigate();
 

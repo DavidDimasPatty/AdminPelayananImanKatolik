@@ -7,6 +7,7 @@ import Home from './components/home'
 import EditGereja from "./components/editGereja";
 import AddGereja from "./components/addGereja";
 import ChangePassword from "./components/changePassword";
+import Error from "./components/error";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
            <Route exact path="/editgereja/:id" element={<EditGereja/>}/>
            <Route exact path="/pageaddgereja" element={<AddGereja/>}/>
            <Route exact path="/pageForgotPassword/:email" element={<ChangePassword/>}/>
-             
+           <Route exact path="/error" element={<Error/>}/>
            </Routes>
   </Router>
   );
