@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Leftnavbar=()=>{
     return(
-        <aside class="column  ml-5">
+        <aside class="column ml-4" style={{"width":"100%"}}>
         <p class="menu-label">Navigation</p>
         <ul class="menu-list">
           <li>

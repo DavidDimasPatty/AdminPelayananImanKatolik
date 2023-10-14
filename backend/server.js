@@ -20,10 +20,16 @@ app.get('/api/user',function (req,res){
     })
 });
 
-app.get('/api/getgereja',function (req,res){
-    dbm.getAllGereja().then((result)=>{
+app.get('/api/getalldata',function (req,res){
+    dbm.getAllData().then((result)=>{
         res.send(result)
     })
+});
+
+app.get('/api/getgereja',function (req,res){
+  dbm.getAllGereja().then((result)=>{
+      res.send(result)
+  })
 });
 
 app.get('/api/getuser',function (req,res){

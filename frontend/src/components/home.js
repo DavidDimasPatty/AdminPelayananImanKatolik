@@ -5,6 +5,8 @@ import "./home.css";
 import CanvasJSReact from "@canvasjs/react-charts";
 import Leftnavbar from "./leftnavbar";
 import Header from "./header";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Home() {
   const navigate = useNavigate();
@@ -195,46 +197,47 @@ function Home() {
 
   return (
     <section>
-      <Header/>
-      <div class="main-content columns is-fullheight">
-      <div class="column is-2">
-      <Leftnavbar />
-      </div>
+      <Header />
+      <div class="main-content columns">
+        <Col md={1} className="mt-6">
+          <Leftnavbar />
+        </Col>
 
-      <div class="column">
-        <div classNameName="column is-mobile">
-          <div className="column has-text-centered">
-            <h1 style={{ color: "Black", fontSize: "40px" }}>
-              Welcome To Admin Page
-            </h1>
-          </div>
-        </div>
+        <Col>
+          <center>
+            <div>
+              <div className="column has-text-centered">
+                <h1 style={{ color: "Black", fontSize: "40px" }}>
+                  Welcome To Admin Page
+                </h1>
+              </div>
+            </div>
+            <div style={{ border: " 2px solid black", borderRadius: "10px",width:"90%"}}>
+              <center class="mb-5">
+                <h1 style={{ fontSize: "40px" }}>Dashboard</h1>
+              </center>
+              <div class="columns ">
+                <div class="column is-half">
+                  <CanvasJSChart options={options} />
+                </div>
 
-        <div style={{ border: " 2px solid black", borderRadius: "10px" }} className="mr-4">
-          <center class="mb-5">
-            <h1 style={{ fontSize: "40px" }}>Dashboard</h1>
+                <div class="column is-half">
+                  <CanvasJSChart options={options2} />
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column is-half">
+                  <CanvasJSChart options={options3} />
+                </div>
+
+                <div class="column is-half">
+                  <CanvasJSChart options={options4} />
+                </div>
+              </div>
+            </div>{" "}
           </center>
-          <div class="columns">
-            <div class="column is-half">
-              <CanvasJSChart options={options} />
-            </div>
-
-            <div class="column is-half">
-              <CanvasJSChart options={options2} />
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-half">
-              <CanvasJSChart options={options3} />
-            </div>
-
-            <div class="column is-half">
-              <CanvasJSChart options={options4} />
-            </div>
-          </div>
-        </div>
-      </div>
+        </Col>
       </div>
     </section>
   );
