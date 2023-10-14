@@ -53,19 +53,6 @@ const EditGereja = () => {
         
     }
 
-    // const getAllCategory= async()=>{
-    //     const devEnv = process.env.NODE_ENV !== "production";
-    //     await axios.get(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/getallcategory`).
-    //     then((res)=>{
-    //          console.log(res.data)
-    //          if (res.data.length!=0){
-    //             setCategory(res.data);
-    //             }
-    //     }).catch((e)=>{
-    //        // window.location.reload();
-    //     });
-    // }
-
   return (
     <div>
             <form onSubmit={UpdateGereja}>
@@ -114,17 +101,6 @@ const EditGereja = () => {
                      onChange={(e) =>setLingkungan(e.target.value)}
                     ></input>
                 </div>
-
-                {/* <div className='field'>
-                    <label className='label'>Category</label>
-                    <select  onChange={(e) =>setCategory2(e.target.value)} > 
-                   
-                    { category.map((category,key)=>(
-                        <option value={category._id} selected={(category2=== category._id) ? true : false} >{category.name}</option>
-                     ))}
-                      
-                    </select>
-                </div> */}
 
                 <div className='field'>
                         <button className='button is-primary'>Update</button>

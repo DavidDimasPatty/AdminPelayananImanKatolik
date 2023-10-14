@@ -16,7 +16,6 @@ function Home() {
   const [bannedAccount, setBannedAcount] = useState([]);
   const [daftarAccount, setDaftarAccount] = useState([]);
   const [daftarPelayanan, setDaftarPelayanan] = useState([]);
-
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
   useEffect(() => {
     getAllData();
