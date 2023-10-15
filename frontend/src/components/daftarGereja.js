@@ -7,9 +7,16 @@ import Header from "./header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
+import { Card, Button, Modal, Form, InputGroup, Toast } from "react-bootstrap";
 
 const DaftarGereja = () => {
   const [gereja, setGereja] = useState([]);
+  const [nama, setNama] = useState();
+  const [address, setAddress] = useState();
+  const [paroki, setParoki] = useState();
+  const [lingkungan, setLingkungan] = useState();
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [gerejaTemp, setGerejaTemp] = useState([]);
   const [bannedAccount, setBannedAcount] = useState([]);
   const [pelayanan, setPelayanan] = useState([]);
@@ -18,11 +25,14 @@ const DaftarGereja = () => {
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
   const devEnv = process.env.NODE_ENV !== "production";
   const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getAllGereja();
   }, []);
 
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   const deleteGereja = async (id) => {
     await axios
@@ -54,7 +64,7 @@ const DaftarGereja = () => {
         if (res.data.length != 0) {
           setGereja(res.data[0]);
           setGerejaTemp(res.data[0]);
-       
+
           var bannedArr = [0, 0];
           var pelayananTemp = [0, 0, 0, 0];
           var pelayananFinal = [0, 0, 0, 0];
@@ -109,7 +119,7 @@ const DaftarGereja = () => {
               100;
           }
           var tempJson = [];
-       
+
           for (var i = 0; i < jumlahPelayananGereja.length; i++) {
             tempJson.push({
               label: res.data[0][i].nama,
@@ -127,14 +137,28 @@ const DaftarGereja = () => {
       });
   };
 
+  const saveGereja= async ()=>{
+    const devEnv = process.env.NODE_ENV !== "production";
+    const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+
+    await axios.post(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/addgereja `,{
+       
+        nama:nama,
+        address:address,
+        paroki:paroki,
+        lingkungan:lingkungan,
+        lat:lat,
+        lng:lng
+    }).then( window.location.href="/daftargereja")
+}
 
   function Search(name) {
     setGereja(gerejaTemp);
-    var arr=[]
-    if(name!=""){
-      for(var i=0;i<gerejaTemp.length;i++){
-        if(gerejaTemp[i].nama.toLowerCase().includes(name.toLowerCase())){
-          arr.push(gerejaTemp[i])
+    var arr = [];
+    if (name != "") {
+      for (var i = 0; i < gerejaTemp.length; i++) {
+        if (gerejaTemp[i].nama.toLowerCase().includes(name.toLowerCase())) {
+          arr.push(gerejaTemp[i]);
         }
       }
       setGereja(arr);
@@ -191,8 +215,7 @@ const DaftarGereja = () => {
 
         <Col className="mt-6">
           <center>
-          
-            <div class="input-group mb-3"   style={{width:"50%"}}>
+            <div class="input-group mb-3" style={{ width: "50%" }}>
               <span class="input-group-text" id="basic-addon1">
                 Cari Gereja
               </span>
@@ -201,9 +224,103 @@ const DaftarGereja = () => {
                 class="form-control"
                 placeholder="Cari Gereja"
                 aria-describedby="basic-addon1"
-                onChange={(e)=>Search(e.target.value)}
+                onChange={(e) => Search(e.target.value)}
               />
+              <button
+                className="button is-info is-light ml-5"
+                onClick={handleShowModal}
+              >
+                Add Gereja
+              </button>
             </div>
+
+            <Modal
+              show={showModal}
+              onHide={handleCloseModal}
+              style={{ "z-index": "1500" }}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Add Gereja</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Nama</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Nama"
+                      autoFocus
+                      onChange={(e) => setNama(e.target.value)}
+                    />
+                  </Form.Group>
+                </Form>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Address"
+                    autoFocus
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Paroki</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Paroki"
+                    autoFocus
+                    onChange={(e) => setParoki(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Lingkungan</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Lingkungan"
+                    autoFocus
+                    onChange={(e) => setLingkungan(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>
+                    Koordinat Posisi Gereja (Based on Google Map)
+                  </Form.Label>
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text>Latitude and Longitude </InputGroup.Text>
+                    <Form.Control
+                      placeholder="Enter Latitude"
+                      onChange={(e) => setLat(e.target.value)}
+                    />
+                    <Form.Control
+                      placeholder="Enter Longitude"
+                      onChange={(e) => setLng(e.target.value)}
+                    />
+                  </InputGroup>
+                </Form.Group>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={()=>saveGereja()}>Add</Button>
+              </Modal.Footer>
+            </Modal>
 
             <div
               class="table-responsive"

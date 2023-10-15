@@ -7,7 +7,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Header = () => {
 
-
+  const nav = useNavigate();
+  function logOut(){
+     localStorage.removeItem("token");
+     nav("/");
+  }
 
   return (
     <Navbar expand="lg" className="bg-body has-shadow">
@@ -15,10 +19,12 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
-          <Nav.Item className='me-3' ><button className='button is-primary ml-5'>Log Out</button></Nav.Item>     
+          <Nav.Item className='me-3' ><button className='button is-info ml-5' onClick={()=>{logOut()}}>Log Out</button></Nav.Item>     
         </Nav>
       </Navbar.Collapse>
+      
   </Navbar>
+  
   );
 };
 

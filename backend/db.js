@@ -40,9 +40,9 @@ const gerejascheme = new Schema(
     banned: Number,
     gambar: String,
     createdAt: Date,
-    createdBy: Date,
+    createdBy: ObjectId,
     updatedAt: Date,
-    updatedBy: Date,
+    updatedBy: ObjectId,
   },
   { collection: "Gereja" }
 );
@@ -82,10 +82,10 @@ const imamcheme = new Schema(
     statusPerkawinan: Number,
     createdAt: Date,
     updatedAt: Date,
-    updatedBy: Date,
+    updatedBy: ObjectId,
     role: Number,
     nama: String,
-    createdBy: Date,
+    createdBy: ObjectId,
   },
   { collection: "imam" }
 );
@@ -143,7 +143,7 @@ const krismascheme = new Schema(
   { collection: "krisma" }
 );
 
-var krisma = mongoose.model("krisma", komunischeme);
+var krisma = mongoose.model("krisma", krismascheme);
 
 const umumscheme = new Schema(
   {
@@ -278,7 +278,7 @@ async function getAllGereja() {
     .catch((e) => {
       console.log(e);
     });
-    await baptis
+  await baptis
     .find()
     .then((res) => {
       arr.push(res);
@@ -286,7 +286,7 @@ async function getAllGereja() {
     .catch((e) => {
       console.log(e);
     });
-    await komuni
+  await komuni
     .find()
     .then((res) => {
       arr.push(res);
@@ -294,7 +294,7 @@ async function getAllGereja() {
     .catch((e) => {
       console.log(e);
     });
-    await krisma
+  await krisma
     .find()
     .then((res) => {
       arr.push(res);
@@ -302,7 +302,7 @@ async function getAllGereja() {
     .catch((e) => {
       console.log(e);
     });
-    await umum
+  await umum
     .find()
     .then((res) => {
       arr.push(res);
@@ -318,7 +318,7 @@ async function getAllUser() {
   await user
     .find()
     .then((res) => {
-      arr=res;
+      arr = res;
     })
     .catch((e) => {
       console.log(e);
@@ -336,7 +336,7 @@ async function getAllImam() {
     .catch((e) => {
       console.log(e);
     });
-    await userPemberkatan
+  await userPemberkatan
     .find()
     .then((res) => {
       arr.push(res);
@@ -345,7 +345,16 @@ async function getAllImam() {
       console.log(e);
     });
 
-    await userPerkawinan
+  await userPerkawinan
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+
+  await gereja
     .find()
     .then((res) => {
       arr.push(res);
@@ -507,16 +516,50 @@ async function updatePassword(item) {
 }
 
 function addGereja(item) {
+  const _id = new ObjectId("62e56cac45750be416fd52b0");
   const newData = {
     nama: item.body.nama,
     address: item.body.address,
-    kapasitas: item.body.kapasitas,
     paroki: item.body.paroki,
     lingkungan: item.body.lingkungan,
+    lat:item.body.lat,
+    lng:item.body.lng,
+    deskripsi:"",
+    banned:0,
+    gambar:"",
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    updatedBy: _id,
+    createdBy: _id,
   };
   var data = new gereja(newData);
   data.save();
 }
+
+function addImam(item) {
+  const _id = new ObjectId("62e56cac45750be416fd52b0");
+  const newData = {
+    nama: item.body.nama,
+    email: item.body.email,
+    password: item.body.password,
+    notelp: item.body.notelp,
+    idGereja: item.body.gereja,
+    role: item.body.role,
+    picture: "",
+    statusPemberkatan: 0,
+    banned: 0,
+    statusPerminyakan: 0,
+    statusTobat: 0,
+    statusPerkawinan: 0,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    updatedBy: _id,
+    createdBy: _id,
+  };
+  var data = new imam(newData);
+  data.save();
+}
+
 function deletegereja(item) {
   gereja.findByIdAndRemove(item).exec();
 }
@@ -565,4 +608,5 @@ module.exports = {
   getUserEmail: getUserEmail,
   getAllData: getAllData,
   getAllImam: getAllImam,
+  addImam: addImam,
 };

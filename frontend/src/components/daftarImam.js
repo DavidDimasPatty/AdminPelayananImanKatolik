@@ -7,16 +7,29 @@ import Header from "./header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
-
+import { Card, Button, Modal, Form, InputGroup, Toast } from "react-bootstrap";
 
 const DaftarImam = () => {
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [nama, setNama] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [notelp, setNotelp] = useState();
+  const [gereja, setGereja] = useState();
+  const [allGereja, setAllGereja] = useState();
+  const [role, setRole] = useState();
   const [userTemp, setUserTemp] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [completedPelayanan, setCompletedPelayanan] = useState([]);
   const [accountRegistration, setAccountRegistrations] = useState([]);
+
   useEffect(() => {
     getAllImam();
   }, []);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
 
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -61,6 +74,29 @@ const DaftarImam = () => {
       .then((window.location.href = "/daftaruser"));
   };
 
+  const saveImam = async () => {
+    const devEnv = process.env.NODE_ENV !== "production";
+    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+
+    await axios
+      .post(
+        `${
+          devEnv
+            ? process.env.REACT_APP_DEV_URL
+            : process.env.REACT_APP_PROD_URL
+        }/addimam`,
+        {
+          nama: nama,
+          email: email,
+          password: password,
+          notelp: notelp,
+          gereja: gereja,
+          role: role,
+        }
+      )
+      .then((window.location.href = "/daftarimam"));
+  };
+
   const getAllImam = async () => {
     const devEnv = process.env.NODE_ENV !== "production";
     const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
@@ -76,6 +112,7 @@ const DaftarImam = () => {
         if (res.data.length != 0) {
           setUser(res.data[0]);
           setUserTemp(res.data[0]);
+          setAllGereja(res.data[3]);
           var completePelayanan = [0, 0];
           var daftarAccount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
           for (var i = 0; i < res.data[0].length; i++) {
@@ -84,18 +121,18 @@ const DaftarImam = () => {
             ]++;
           }
 
-          for (var i = 1; i < res.data.length; i++) {
-           
+          for (var i = 1; i < res.data.length - 1; i++) {
             for (var j = 0; j < res.data[i].length; j++) {
-                if(res.data[i][j].status==2){
-                  completePelayanan[i-1]++
-                }
+              if (res.data[i][j].status == 2) {
+                completePelayanan[i - 1]++;
+              }
             }
           }
 
           setCompletedPelayanan(completePelayanan);
           setAccountRegistrations(daftarAccount);
         }
+        setLoading(false);
       })
       .catch((e) => {
         window.location.reload();
@@ -104,17 +141,16 @@ const DaftarImam = () => {
 
   function Search(name) {
     setUser(userTemp);
-    var arr=[]
-    if(name!=""){
-      for(var i=0;i<userTemp.length;i++){
-        if(userTemp[i].nama.toLowerCase().includes(name.toLowerCase())){
-          arr.push(userTemp[i])
+    var arr = [];
+    if (name != "") {
+      for (var i = 0; i < userTemp.length; i++) {
+        if (userTemp[i].nama.toLowerCase().includes(name.toLowerCase())) {
+          arr.push(userTemp[i]);
         }
       }
       setUser(arr);
     }
   }
-
 
   const options2 = {
     animationEnabled: true,
@@ -162,9 +198,13 @@ const DaftarImam = () => {
     ],
   };
 
+  if (loading) {
+    return "Load data...";
+  }
   return (
     <div>
       <Header />
+
       <div class="main-content columns">
         <Col md={1} className="mt-6">
           <Leftnavbar />
@@ -172,7 +212,7 @@ const DaftarImam = () => {
 
         <Col className="mt-6">
           <center>
-          <div class="input-group mb-3"   style={{width:"50%"}}>
+            <div class="input-group mb-3" style={{ width: "50%" }}>
               <span class="input-group-text" id="basic-addon1">
                 Cari Imam
               </span>
@@ -181,9 +221,119 @@ const DaftarImam = () => {
                 class="form-control"
                 placeholder="Cari Imam"
                 aria-describedby="basic-addon1"
-                onChange={(e)=>Search(e.target.value)}
+                onChange={(e) => Search(e.target.value)}
               />
+              <button
+                className="button is-info is-light ml-5"
+                onClick={handleShowModal}
+              >
+                Add Imam
+              </button>
             </div>
+
+            <Modal
+              show={showModal}
+              onHide={handleCloseModal}
+              style={{ "z-index": "1500" }}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Add Imam</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Nama</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Nama"
+                      autoFocus
+                      onChange={(e) => setNama(e.target.value)}
+                    />
+                  </Form.Group>
+                </Form>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Email"
+                    autoFocus
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Password"
+                    autoFocus
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Nomor Telepon</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Nomor Telepon"
+                    autoFocus
+                    onChange={(e) => setNotelp(e.target.value)}
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Gereja</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    onChange={(e) => setGereja(e.target.value)}
+                  >
+                    <option>Pilih Gereja</option>
+                    {allGereja.map((ag, index) => (
+                      <option value={ag._id}>{ag.nama}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Role</Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <option>Pilih Role</option>
+                    <option value="0">Imam</option>
+                    <option value="1">Sekretariat</option>
+                  </Form.Select>
+                </Form.Group>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                   onClick={()=>saveImam()}
+                >
+                  Add
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
             <div
               class="table-responsive"
@@ -227,9 +377,7 @@ const DaftarImam = () => {
                           <img src={User.picture} width="50" height="50" />
                         )}
                       </td>
-                      <td>
-                        {User.role==1?"Sekretariat":"Imam"}
-                      </td>
+                      <td>{User.role == 1 ? "Sekretariat" : "Imam"}</td>
                       <td>{User.banned == 0 ? "No" : "Yes"}</td>
                       <td>
                         {User.banned == 0 ? (

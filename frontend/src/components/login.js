@@ -38,8 +38,9 @@ const Login = () => {
           }
         )
         .then((respon) => {
-          console.log(respon);
+          console.log(respon.data);
           if (respon.data.length !== 0) {
+            localStorage.setItem("token", respon.data[0].user);
             nav("/home");
           } else {
             window.alert("Invalid username or password");
@@ -51,6 +52,10 @@ const Login = () => {
     }
   };
   /*  */
+  if(localStorage.getItem("token")==="admin"){
+    window.location.href="\home";
+  }
+
   return (
     <center  class="column is-vcentered">
     <div class="column is-one-third">
@@ -90,6 +95,7 @@ const Login = () => {
     </div>
     </center>
   );
+
 };
 
 export default Login;

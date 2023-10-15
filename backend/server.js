@@ -74,6 +74,10 @@ app.patch('/api/updategereja',function(req,res){
     dbm.addGereja(req)
   })
 
+  app.post('/api/addimam',function(req,res){
+    dbm.addImam(req)
+  })
+
   app.delete('/api/deletegereja',function(req,res){
    dbm.deletegereja(req.body.id)
  })
@@ -88,5 +92,6 @@ app.patch('/api/updategereja',function(req,res){
         
     });
   }
+  
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
