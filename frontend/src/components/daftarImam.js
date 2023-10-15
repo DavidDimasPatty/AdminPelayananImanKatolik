@@ -7,17 +7,19 @@ import Header from "./header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
-const DaftarUser = () => {
+
+
+const DaftarImam = () => {
   const [user, setUser] = useState([]);
   const [userTemp, setUserTemp] = useState([]);
-  const [bannedAccount, setBannedAcount] = useState([]);
+  const [completedPelayanan, setCompletedPelayanan] = useState([]);
   const [accountRegistration, setAccountRegistrations] = useState([]);
-  const nav = useNavigate();
   useEffect(() => {
-    getAllUser();
+    getAllImam();
   }, []);
 
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
   const deleteUser = async (id) => {
     const devEnv = process.env.NODE_ENV !== "production";
     const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
@@ -59,7 +61,7 @@ const DaftarUser = () => {
       .then((window.location.href = "/daftaruser"));
   };
 
-  const getAllUser = async () => {
+  const getAllImam = async () => {
     const devEnv = process.env.NODE_ENV !== "production";
     const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
     await axios
@@ -68,25 +70,30 @@ const DaftarUser = () => {
           devEnv
             ? process.env.REACT_APP_DEV_URL
             : process.env.REACT_APP_PROD_URL
-        }/getuser`
+        }/getimam`
       )
       .then((res) => {
         if (res.data.length != 0) {
-          setUser(res.data);
-          setUserTemp(res.data);
-          var bannedArr = [0, 0];
+          setUser(res.data[0]);
+          setUserTemp(res.data[0]);
+          var completePelayanan = [0, 0];
           var daftarAccount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-          for (var i = 0; i < res.data.length; i++) {
+          for (var i = 0; i < res.data[0].length; i++) {
             daftarAccount[
-              parseInt(res.data[i].tanggalDaftar.toString().substring(5, 7))
+              parseInt(res.data[0][i].createdAt.toString().substring(5, 7))
             ]++;
-            if (res.data[i].banned == 1) {
-              bannedArr[0]++;
-            } else {
-              bannedArr[1]++;
+          }
+
+          for (var i = 1; i < res.data.length; i++) {
+           
+            for (var j = 0; j < res.data[i].length; j++) {
+                if(res.data[i][j].status==2){
+                  completePelayanan[i-1]++
+                }
             }
           }
-          setBannedAcount(bannedArr);
+
+          setCompletedPelayanan(completePelayanan);
           setAccountRegistrations(daftarAccount);
         }
       })
@@ -108,19 +115,20 @@ const DaftarUser = () => {
     }
   }
 
+
   const options2 = {
     animationEnabled: true,
     exportEnabled: true,
     theme: "light2", // "light1", "light2", "dark1", "dark2"
     title: {
-      text: "Banned Accounts",
+      text: "Completed Pelayanan",
     },
     data: [
       {
         type: "column",
         dataPoints: [
-          { label: "Banned", y: bannedAccount[0] },
-          { label: "Unbanned", y: bannedAccount[1] },
+          { label: "Pemberkatan", y: completedPelayanan[0] },
+          { label: "Perkawinan", y: completedPelayanan[1] },
         ],
       },
     ],
@@ -131,7 +139,7 @@ const DaftarUser = () => {
     exportEnabled: true,
     animationEnabled: true,
     title: {
-      text: "User Accounts Registration 2023",
+      text: "Imam Accounts Registration 2023",
     },
     data: [
       {
@@ -164,15 +172,14 @@ const DaftarUser = () => {
 
         <Col className="mt-6">
           <center>
-
           <div class="input-group mb-3"   style={{width:"50%"}}>
               <span class="input-group-text" id="basic-addon1">
-                Cari User
+                Cari Imam
               </span>
               <input
                 type="text"
                 class="form-control"
-                placeholder="Cari User"
+                placeholder="Cari Imam"
                 aria-describedby="basic-addon1"
                 onChange={(e)=>Search(e.target.value)}
               />
@@ -200,6 +207,7 @@ const DaftarUser = () => {
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Picture</th>
+                    <th>Role</th>
                     <th>Banned</th>
                     <th>Action</th>
                   </tr>
@@ -218,6 +226,9 @@ const DaftarUser = () => {
                         ) : (
                           <img src={User.picture} width="50" height="50" />
                         )}
+                      </td>
+                      <td>
+                        {User.role==1?"Sekretariat":"Imam"}
                       </td>
                       <td>{User.banned == 0 ? "No" : "Yes"}</td>
                       <td>
@@ -255,7 +266,7 @@ const DaftarUser = () => {
       <Row className="mt-5 mb-5">
         <center>
           <h2 style={{ fontSize: "40px", position: "center" }}>
-            Dashboard User
+            Dashboard Imam
           </h2>
         </center>
         <center className="mt-5">
@@ -281,4 +292,4 @@ const DaftarUser = () => {
   );
 };
 
-export default DaftarUser;
+export default DaftarImam;

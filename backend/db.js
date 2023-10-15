@@ -91,6 +91,83 @@ const imamcheme = new Schema(
 );
 var imam = mongoose.model("imam", imamcheme);
 
+const baptisscheme = new Schema(
+  {
+    idGereja: ObjectId,
+    kapasitas: Number,
+    jadwalBuka: Date,
+    jadwalTutup: Date,
+    status: Number,
+    createdAt: Date,
+    createdBy: Date,
+    updatedAt: Date,
+    updatedBy: Date,
+    jenis: String,
+  },
+  { collection: "baptis" }
+);
+
+var baptis = mongoose.model("baptis", baptisscheme);
+
+const komunischeme = new Schema(
+  {
+    idGereja: ObjectId,
+    kapasitas: Number,
+    jadwalBuka: Date,
+    jadwalTutup: Date,
+    status: Number,
+    createdAt: Date,
+    createdBy: Date,
+    updatedAt: Date,
+    updatedBy: Date,
+    jenis: String,
+  },
+  { collection: "komuni" }
+);
+
+var komuni = mongoose.model("komuni", komunischeme);
+
+const krismascheme = new Schema(
+  {
+    idGereja: ObjectId,
+    kapasitas: Number,
+    jadwalBuka: Date,
+    jadwalTutup: Date,
+    status: Number,
+    createdAt: Date,
+    createdBy: Date,
+    updatedAt: Date,
+    updatedBy: Date,
+    jenis: String,
+  },
+  { collection: "krisma" }
+);
+
+var krisma = mongoose.model("krisma", komunischeme);
+
+const umumscheme = new Schema(
+  {
+    namaKegiatan: String,
+    idGereja: ObjectId,
+    temaKegiatan: String,
+    deskripsiKegiatan: String,
+    tamu: String,
+    kapasitas: Number,
+    tanggal: Date,
+    lokasi: String,
+    jenisKegiatan: String,
+    picture: String,
+    status: Number,
+    createdAt: Date,
+    createdBy: Date,
+    updatedAt: Date,
+    updatedBy: Date,
+  },
+  { collection: "umum" }
+);
+
+var umum = mongoose.model("umum", umumscheme);
+
 const userBaptisscheme = new Schema(
   {
     idBaptis: ObjectId,
@@ -189,14 +266,46 @@ const perkawinanscheme = new Schema(
   { collection: "perkawinan" }
 );
 
-var userPerkawinan = mongoose.model("perkawinan",perkawinanscheme);
+var userPerkawinan = mongoose.model("perkawinan", perkawinanscheme);
 
 async function getAllGereja() {
   var arr = [];
   await gereja
     .find()
     .then((res) => {
-      arr = res;
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+    await baptis
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+    await komuni
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+    await krisma
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+    await umum
+    .find()
+    .then((res) => {
+      arr.push(res);
     })
     .catch((e) => {
       console.log(e);
@@ -209,7 +318,37 @@ async function getAllUser() {
   await user
     .find()
     .then((res) => {
-      arr = res;
+      arr=res;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+  return arr;
+}
+
+async function getAllImam() {
+  var arr = [];
+  await imam
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+    await userPemberkatan
+    .find()
+    .then((res) => {
+      arr.push(res);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+
+    await userPerkawinan
+    .find()
+    .then((res) => {
+      arr.push(res);
     })
     .catch((e) => {
       console.log(e);
@@ -425,4 +564,5 @@ module.exports = {
   updatePassword: updatePassword,
   getUserEmail: getUserEmail,
   getAllData: getAllData,
+  getAllImam: getAllImam,
 };

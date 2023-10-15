@@ -38,6 +38,12 @@ app.get('/api/getuser',function (req,res){
     })
 });
 
+app.get('/api/getimam',function (req,res){
+  dbm.getAllImam().then((result)=>{
+      res.send(result)
+  })
+});
+
 app.get('/api/getidgereja',function (req,res){
     dbm.getIdGereja(req.query.id).then((result)=>{
         res.send(result)
