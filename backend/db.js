@@ -564,6 +564,10 @@ function deletegereja(item) {
   gereja.findByIdAndRemove(item).exec();
 }
 
+function deletimam(item) {
+  imam.findByIdAndRemove(item).exec();
+}
+
 function deleteUser(item) {
   user.findByIdAndRemove(item).exec();
 }
@@ -593,6 +597,58 @@ async function bannedUser(item) {
   }
 }
 
+
+async function bannedGereja(item) {
+  console.log(item.id);
+  if (item.banned == 0) {
+    await gereja
+      .updateOne(
+        { _id: item.id },
+        { $set: { banned: "1" } },
+        { upsert: true } // Make this update into an upsert
+      )
+      .catch((e) => {
+        console.log(e);
+      });
+  } else {
+    await gereja
+      .updateOne(
+        { _id: item.id },
+        { $set: { banned: "0" } },
+        { upsert: true } // Make this update into an upsert
+      )
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+}
+
+
+async function bannedImam(item) {
+  console.log(item.id);
+  if (item.banned == 0) {
+    await imam
+      .updateOne(
+        { _id: item.id },
+        { $set: { banned: "1" } },
+        { upsert: true } // Make this update into an upsert
+      )
+      .catch((e) => {
+        console.log(e);
+      });
+  } else {
+    await imam
+      .updateOne(
+        { _id: item.id },
+        { $set: { banned: "0" } },
+        { upsert: true } // Make this update into an upsert
+      )
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+}
+
 module.exports = {
   connect: connect,
   getIdUser: getIdUser,
@@ -609,4 +665,7 @@ module.exports = {
   getAllData: getAllData,
   getAllImam: getAllImam,
   addImam: addImam,
+  bannedGereja:bannedGereja,
+  bannedImam:bannedImam,
+  deleteimam:deletimam,
 };

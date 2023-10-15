@@ -33,7 +33,7 @@ const DaftarImam = () => {
 
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-  const deleteUser = async (id) => {
+  const deleteImam = async (id) => {
     const devEnv = process.env.NODE_ENV !== "production";
     const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 
@@ -43,35 +43,14 @@ const DaftarImam = () => {
           devEnv
             ? process.env.REACT_APP_DEV_URL
             : process.env.REACT_APP_PROD_URL
-        }/deleteuser`,
+        }/deleteimam`,
         {
           data: {
             id: id,
           },
         }
       )
-      .then((window.location.href = "/daftaruser"));
-  };
-
-  const bannedUser = async (id, banned) => {
-    const devEnv = process.env.NODE_ENV !== "production";
-    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
-
-    await axios
-      .patch(
-        `${
-          devEnv
-            ? process.env.REACT_APP_DEV_URL
-            : process.env.REACT_APP_PROD_URL
-        }/banneduser`,
-        {
-          data: {
-            id: id,
-            banned: banned,
-          },
-        }
-      )
-      .then((window.location.href = "/daftaruser"));
+      .then((window.location.href = "/daftarimam"));
   };
 
   const saveImam = async () => {
@@ -139,6 +118,27 @@ const DaftarImam = () => {
       });
   };
 
+  const bannedImam = async (id, banned) => {
+    const devEnv = process.env.NODE_ENV !== "production";
+    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+
+    await axios
+      .patch(
+        `${
+          devEnv
+            ? process.env.REACT_APP_DEV_URL
+            : process.env.REACT_APP_PROD_URL
+        }/bannedimam`,
+        {
+          data: {
+            id: id,
+            banned: banned,
+          },
+        }
+      )
+      .then((window.location.href = "/daftarimam"));
+  };
+
   function Search(name) {
     setUser(userTemp);
     var arr = [];
@@ -196,6 +196,21 @@ const DaftarImam = () => {
         ],
       },
     ],
+  };
+
+  const handleNotelpChange = (e) => {
+    const inputValue = e.target.value;
+    const onlyNumbers = inputValue.replace(/[^0-9]/g, ""); // Hanya angka yang diterima
+    setNotelp(onlyNumbers);
+  };
+
+  const handleEmailChange = (e) => {
+    const inputValue = e.target.value;
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+
+    if (emailRegex.test(inputValue) || inputValue === "") {
+      setEmail(inputValue);
+    }
   };
 
   if (loading) {
@@ -264,7 +279,8 @@ const DaftarImam = () => {
                     type="text"
                     placeholder="Enter Email"
                     autoFocus
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    onChange={handleEmailChange}
                   />
                 </Form.Group>
 
@@ -287,10 +303,12 @@ const DaftarImam = () => {
                 >
                   <Form.Label>Nomor Telepon</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="tel"
                     placeholder="Enter Nomor Telepon"
                     autoFocus
-                    onChange={(e) => setNotelp(e.target.value)}
+                    value={notelp}
+                    onChange={handleNotelpChange}
+                    pattern="[0-9]*"
                   />
                 </Form.Group>
 
@@ -326,10 +344,7 @@ const DaftarImam = () => {
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>
-                <Button
-                  variant="secondary"
-                   onClick={()=>saveImam()}
-                >
+                <Button variant="secondary" onClick={() => saveImam()}>
                   Add
                 </Button>
               </Modal.Footer>
@@ -382,14 +397,14 @@ const DaftarImam = () => {
                       <td>
                         {User.banned == 0 ? (
                           <button
-                            onClick={() => bannedUser(User._id, User.banned)}
+                            onClick={() => bannedImam(User._id, User.banned)}
                             className="button is-small is-info"
                           >
                             Banned
                           </button>
                         ) : (
                           <button
-                            onClick={() => bannedUser(User._id, User.banned)}
+                            onClick={() => bannedImam(User._id, User.banned)}
                             className="button is-small is-info"
                           >
                             Unbanned
@@ -397,7 +412,7 @@ const DaftarImam = () => {
                         )}
 
                         <button
-                          onClick={() => deleteUser(User._id)}
+                          onClick={() => deleteImam(User._id)}
                           className="button is-small is-danger"
                         >
                           Delete

@@ -70,6 +70,14 @@ app.patch('/api/updategereja',function(req,res){
     dbm.bannedUser(req.body.data)
    })
 
+   app.patch('/api/bannedgereja',function(req,res){
+    dbm.bannedGereja(req.body.data)
+   })
+
+   app.patch('/api/bannedimam',function(req,res){
+    dbm.bannedImam(req.body.data)
+   })
+
   app.post('/api/addgereja',function(req,res){
     dbm.addGereja(req)
   })
@@ -81,17 +89,28 @@ app.patch('/api/updategereja',function(req,res){
   app.delete('/api/deletegereja',function(req,res){
    dbm.deletegereja(req.body.id)
  })
+
+ app.delete('/api/deleteimam',function(req,res){
+  dbm.deleteimam(req.body.id)
+})
+
  app.delete('/api/deleteuser',function(req,res){
     dbm.deleteUser(req.body.id)
   })
 
-  if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'build')));
-    app.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, 'build', 'index.html'));
-        
-    });
-  }
+  app.use(express.static(path.join(__dirname, "./frontend/build")));
+
+  app.get("*", function (_, res) {
+    res.sendFile(
+      path.join(__dirname, "./frontend/build/index.html"),
+      function (err) {
+        if (err) {
+          res.status(500).send(err);
+        }
+      }
+    );
+  });
+  
   
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 

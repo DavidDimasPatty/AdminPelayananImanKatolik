@@ -51,6 +51,27 @@ const DaftarGereja = () => {
       .then((window.location.href = "/daftargereja"));
   };
 
+  const bannedGereja = async (id, banned) => {
+    const devEnv = process.env.NODE_ENV !== "production";
+    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+
+    await axios
+      .patch(
+        `${
+          devEnv
+            ? process.env.REACT_APP_DEV_URL
+            : process.env.REACT_APP_PROD_URL
+        }/bannedgereja`,
+        {
+          data: {
+            id: id,
+            banned: banned,
+          },
+        }
+      )
+      .then((window.location.href = "/daftargereja"));
+  };
+
   const getAllGereja = async () => {
     await axios
       .get(
@@ -137,20 +158,28 @@ const DaftarGereja = () => {
       });
   };
 
-  const saveGereja= async ()=>{
+  const saveGereja = async () => {
     const devEnv = process.env.NODE_ENV !== "production";
-    const {REACT_APP_DEV_URL, REACT_APP_PROD_URL} = process.env;
+    const { REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 
-    await axios.post(`${devEnv  ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL}/addgereja `,{
-       
-        nama:nama,
-        address:address,
-        paroki:paroki,
-        lingkungan:lingkungan,
-        lat:lat,
-        lng:lng
-    }).then( window.location.href="/daftargereja")
-}
+    await axios
+      .post(
+        `${
+          devEnv
+            ? process.env.REACT_APP_DEV_URL
+            : process.env.REACT_APP_PROD_URL
+        }/addgereja `,
+        {
+          nama: nama,
+          address: address,
+          paroki: paroki,
+          lingkungan: lingkungan,
+          lat: lat,
+          lng: lng,
+        }
+      )
+      .then((window.location.href = "/daftargereja"));
+  };
 
   function Search(name) {
     setGereja(gerejaTemp);
@@ -164,6 +193,24 @@ const DaftarGereja = () => {
       setGereja(arr);
     }
   }
+
+  const handleLatitudeChange = (e) => {
+    const inputValue = e.target.value;
+    const latitudeRegex = /^-?(\d+(\.\d*)?|\.\d+)$/;
+
+    if (latitudeRegex.test(inputValue) || inputValue === "") {
+      setLat(inputValue);
+    }
+  };
+
+  const handleLongitudeChange = (e) => {
+    const inputValue = e.target.value;
+    const longitudeRegex = /^-?(\d+(\.\d*)?|\.\d+)$/;
+
+    if (longitudeRegex.test(inputValue) || inputValue === "") {
+      setLng(inputValue);
+    }
+  };
 
   const options2 = {
     animationEnabled: true,
@@ -308,17 +355,21 @@ const DaftarGereja = () => {
                     <InputGroup.Text>Latitude and Longitude </InputGroup.Text>
                     <Form.Control
                       placeholder="Enter Latitude"
-                      onChange={(e) => setLat(e.target.value)}
+                      value={lat}
+                      onChange={handleLatitudeChange}
                     />
                     <Form.Control
                       placeholder="Enter Longitude"
-                      onChange={(e) => setLng(e.target.value)}
+                      value={lng}
+                      onChange={handleLongitudeChange}
                     />
                   </InputGroup>
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={()=>saveGereja()}>Add</Button>
+                <Button variant="secondary" onClick={() => saveGereja()}>
+                  Add
+                </Button>
               </Modal.Footer>
             </Modal>
 
@@ -358,12 +409,26 @@ const DaftarGereja = () => {
                       <td>{Gereja.paroki}</td>
                       <td>{Gereja.lingkungan}</td>
                       <td>
-                        <Link
-                          to={`/editgereja/${Gereja._id}`}
-                          className="button is-small is-info"
-                        >
-                          Banned
-                        </Link>
+                        {Gereja.banned == 0 ? (
+                          <button
+                            onClick={() =>
+                              bannedGereja(Gereja._id, Gereja.banned)
+                            }
+                            className="button is-small is-info"
+                          >
+                            Banned
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              bannedGereja(Gereja._id, Gereja.banned)
+                            }
+                            className="button is-small is-info"
+                          >
+                            Unbanned
+                          </button>
+                        )}
+
                         <button
                           onClick={() => deleteGereja(Gereja._id)}
                           className="button is-small is-danger"
