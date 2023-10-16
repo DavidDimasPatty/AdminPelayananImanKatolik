@@ -8,9 +8,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
 import { Card, Button, Modal, Form, InputGroup, Toast } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
+
 
 const DaftarGereja = () => {
   const [gereja, setGereja] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [nama, setNama] = useState();
   const [address, setAddress] = useState();
   const [paroki, setParoki] = useState();
@@ -152,6 +155,7 @@ const DaftarGereja = () => {
           setBannedAcount(bannedArr);
           setPelayanan(pelayananFinal);
         }
+        setLoading(false);
       })
       .catch((e) => {
         window.location.reload();
@@ -251,6 +255,16 @@ const DaftarGereja = () => {
       },
     ],
   };
+
+  if (loading) {
+    return (
+      <center>
+        <Spinner animation="grow" variant="light" />
+        <Spinner animation="grow" variant="info" />
+        <Spinner animation="grow" variant="primary" />
+      </center>
+    );
+  }
 
   return (
     <div>

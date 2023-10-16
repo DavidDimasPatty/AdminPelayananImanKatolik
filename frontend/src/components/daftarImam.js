@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
 import { Card, Button, Modal, Form, InputGroup, Toast } from "react-bootstrap";
+import Spinner from 'react-bootstrap/Spinner';
 
 const DaftarImam = () => {
   const [user, setUser] = useState([]);
@@ -214,7 +215,13 @@ const DaftarImam = () => {
   };
 
   if (loading) {
-    return "Load data...";
+    return (
+      <center>
+        <Spinner animation="grow" variant="light" />
+        <Spinner animation="grow" variant="info" />
+        <Spinner animation="grow" variant="primary" />
+      </center>
+    );
   }
   return (
     <div>

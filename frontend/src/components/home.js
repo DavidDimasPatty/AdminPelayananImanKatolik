@@ -7,9 +7,11 @@ import Leftnavbar from "./leftnavbar";
 import Header from "./header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Spinner from 'react-bootstrap/Spinner';
 
 function Home() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [dataUser, setDataUser] = useState([]);
   const [dataGereja, setDataGereja] = useState([]);
   const [dataImam, setDataImam] = useState([]);
@@ -62,7 +64,6 @@ function Home() {
             }
           }
 
-          console.log(res.data);
           for (let i = 3; i < res.data.length; i++) {
             for (let j = 0; j < res.data[i].length; j++) {
               if (i < 6) {
@@ -98,6 +99,7 @@ function Home() {
           setDaftarAccount(daftarAccount);
           setDaftarPelayanan(PercentageuserPelayanan);
         }
+        setLoading(false);
       })
       .catch((e) => {
         window.location.reload();
@@ -126,7 +128,7 @@ function Home() {
   const options2 = {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2", // "light1", "light2", "dark1", "dark2"
+    theme: "light1", // "light1", "light2", "dark1", "dark2"
     title: {
       text: "Banned Accounts",
     },
@@ -194,6 +196,15 @@ function Home() {
     ],
   };
 
+  if (loading) {
+    return (
+      <center>
+        <Spinner animation="grow" variant="light" />
+        <Spinner animation="grow" variant="info" />
+        <Spinner animation="grow" variant="primary" />
+      </center>
+    );
+  }
   return (
     <section>
       <Header />
@@ -211,7 +222,13 @@ function Home() {
                 </h1>
               </div>
             </div>
-            <div style={{ border: " 2px solid black", borderRadius: "10px",width:"90%"}}>
+            <div
+              style={{
+                border: " 2px solid black",
+                borderRadius: "10px",
+                width: "90%",
+              }}
+            >
               <center class="mb-5">
                 <h1 style={{ fontSize: "40px" }}>Dashboard</h1>
               </center>

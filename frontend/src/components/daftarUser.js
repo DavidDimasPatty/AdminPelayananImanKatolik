@@ -7,8 +7,11 @@ import Header from "./header";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CanvasJSReact from "@canvasjs/react-charts";
+import Spinner from 'react-bootstrap/Spinner';
+
 const DaftarUser = () => {
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [userTemp, setUserTemp] = useState([]);
   const [bannedAccount, setBannedAcount] = useState([]);
   const [accountRegistration, setAccountRegistrations] = useState([]);
@@ -89,6 +92,7 @@ const DaftarUser = () => {
           setBannedAcount(bannedArr);
           setAccountRegistrations(daftarAccount);
         }
+        setLoading(false);
       })
       .catch((e) => {
         window.location.reload();
@@ -153,6 +157,16 @@ const DaftarUser = () => {
       },
     ],
   };
+
+  if (loading) {
+    return (
+      <center>
+      <Spinner animation="grow" variant="light" />
+      <Spinner animation="grow" variant="info" />
+      <Spinner animation="grow" variant="primary" />
+    </center>
+    );
+  }
 
   return (
     <div>
