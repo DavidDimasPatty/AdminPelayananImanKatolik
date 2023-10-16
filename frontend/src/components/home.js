@@ -216,9 +216,9 @@ function Home() {
         <Col>
           <center>
             <div>
-              <div className="column has-text-centered">
-                <h1 style={{ color: "Black", fontSize: "40px" }}>
-                  Welcome To Admin Page
+              <div className="column has-text-centered mt-4 mb-4">
+                <h1 style={{ color: "Black", fontSize: "40px" ,"font-weight": "200"}}>
+                  Welcome to Admin page
                 </h1>
               </div>
             </div>

@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import logo from './asset/logo.png'
 
 const Header = () => {
 
@@ -15,7 +16,13 @@ const Header = () => {
 
   return (
     <Navbar expand="lg" className="bg-body has-shadow">
-      <Navbar.Brand href="/home" className="ml-5">Admin Pelayanan Katolik</Navbar.Brand>
+      <Navbar.Brand href="/home" className="ml-5"> <img
+              alt=""
+              src={logo}
+              width="40"
+              height="30"
+              className="d-inline-block align-middle me-2"
+            /> <center className="mt-2">Admin Pelayanan Katolik</center></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">

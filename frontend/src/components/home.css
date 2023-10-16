@@ -3,3 +3,7 @@
        -ms-flex-align: center;
           align-items: center;
   }
+
+  div{
+   font-family: Helvetica, Arial, sans-serif;
+  }
